@@ -1,0 +1,148 @@
+{% extends 'master/master.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+
+
+    <script>
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+
+            });
+        });
+    </script>
+
+    <style>
+        .asteriskField {
+            display: none;
+        }
+    </style>
+
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h4 class="page-title">Add Appointment</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <form action="{% url 'add-appointment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ apt_form.fname | as_crispy_field }}
+                                </div>
+                            </div>
+                             <div class="col-md-6" hidden>
+                                <div class="form-group">
+                                    {{ apt_form.slug | as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ apt_form.lname |as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ apt_form.age | as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ apt_form.address |as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ apt_form.country |as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ apt_form.department |as_crispy_field }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ apt_form.doctor |as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="cal-icon">
+                                        {{ apt_form.date |as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="time-icon">
+                                        {{ apt_form.time | as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ apt_form.email |as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ apt_form.phone |as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group message">
+                            {{ apt_form.message |as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ apt_form.status |as_crispy_field }}
+                        </div>
+                        <div class="m-t-20 text-center">
+                            <button class="btn btn-primary submit-btn">Create Appointment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('.datetime-input').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+        });
+
+        $(function () {
+            $('.time-input').datetimepicker({
+                format: 'HH:mm:ss',
+                {#format: 'LT ',#}
+
+            });
+        });
+        $(function () {
+            $('.ranjan').addClass('form-check-inline')
+        });
+
+    </script>
+
+{% endblock %}

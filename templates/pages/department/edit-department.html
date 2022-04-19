@@ -1,0 +1,40 @@
+{% extends 'master/master.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <style>
+        .asteriskField {
+            display: none;
+        }
+    </style>
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h4 class="page-title">Edit Department</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <form action="{% url 'edit-department' dept_obj.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ dept_form.department |as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ dept_form.description |as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ dept_form.status |as_crispy_field }}
+                        </div>
+                        <div class="m-t-20 text-center">
+                            <button class="btn btn-primary submit-btn">Save Department</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

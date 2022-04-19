@@ -1,0 +1,47 @@
+from django.urls import path
+
+from myclinic import views
+
+urlpatterns = [
+
+    path('', views.login_user, name='login'),
+    path('logout', views.logout_user, name='logout'),
+    # path('login-user', views.login_user, name='login-user'),
+    path('register', views.register, name='register'),
+    path('forgot-password', views.forgot_password, name='forgot-password'),
+    path('lock-screen', views.lock_screen, name='lock-screen'),
+    path('index', views.index, name='index'),
+    path('my-profile/<slug>', views.my_profile, name='my-profile'),
+    path('edit-profile/<slug>', views.edit_profile, name='edit-profile'),
+    path('settings', views.settings, name='settings'),
+    path('doctors', views.doctors, name='doctors'),
+    path('add-doctor', views.add_doctor, name='add-doctor'),
+    path('edit-doctors/<slug>', views.edit_doctors, name='edit-doctors'),
+    path('delete-doctors/<slug>', views.delete_doctors, name='delete-doctors'),
+    path('patients', views.patients, name='patients'),
+
+    path('add-patient', views.add_patient, name='add-patient'),
+    # path('edit-patient/<slug>', views.edit_patient, name='edit-patient'),
+    path('edit-patient/<slug>', views.edit_patient, name='edit-patient'),
+    path('delete-patient/<slug>', views.delete_patient, name='delete-patient'),
+    path('appointments', views.appointments, name='appointments'),
+    path('appointment-profile/<slug>', views.appointment_profile, name='appointment-profile'),
+    path('add-appointment', views.add_appointment, name='add-appointment'),
+    path('edit-appointment/<slug>', views.edit_appointment, name='edit-appointment'),
+    path('edit-appointment/<slug>', views.edit_appointment, name='edit-appointment'),
+    path('delete-appointment/<slug>', views.delete_appointment, name='delete-appointment'),
+    path('schedule', views.schedule, name='schedule'),
+    path('add-schedule', views.add_schedule, name='add-schedule'),
+    path('edit-schedule/<id>', views.edit_schedule, name='edit-schedule'),
+    path('delete-schedule/<id>', views.delete_schedule, name='delete-schedule'),
+    path('department', views.department, name='department'),
+    path('add-department', views.add_department, name='add-department'),
+    path('edit-department/<id>', views.edit_department, name='edit-department'),
+    path('delete-department/<id>', views.delete_department, name='delete-department'),
+    path('employees', views.employee, name='employees'),
+    path('add-employee/', views.add_employee, name='add-employee'),
+    path('edit-employee/<slug>', views.edit_employee, name='edit-employee'),
+    path('delete-employee/<slug>', views.delete_employee, name='delete-employee'),
+    path('employee-profile/<slug>', views.employee_profile, name='employee-profile'),
+    path('search', views.search_employee, name='search'),
+]

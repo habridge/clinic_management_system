@@ -1,0 +1,223 @@
+{% extends 'master/master.html' %}
+
+{% block content %}
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="dash-widget">
+                        <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
+                        <div class="dash-widget-info text-right">
+                            <h3>{{ doc_obj.count }}</h3>
+                            <span class="widget-title1">Doctors <i class="fa fa-check" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="dash-widget">
+                        <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
+                        <div class="dash-widget-info text-right">
+                            <h3>{{ patient_obj.count }}</h3>
+                            <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="dash-widget">
+                        <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
+                        <div class="dash-widget-info text-right">
+                            <h3>72</h3>
+                            <span class="widget-title3">Attend <i class="fa fa-check" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="dash-widget">
+                        <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
+                        <div class="dash-widget-info text-right">
+                            <h3>618</h3>
+                            <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="{% url 'appointments' %}" class="btn btn-primary float-right">View all</a>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="card-title">
+                                    <tr>
+                                        <th>Patient Name</th>
+                                        <th>Doctor Name</th>
+                                        <th>Timing</th>
+                                        <th>Date</th>
+                                        <th class="text-right">Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for upcoming_app in app_obj %}
+                                        <tr>
+                                            <td style="min-width: 200px;">
+                                                <h2><a href="{% url 'appointment-profile' upcoming_app.slug %}">{{ upcoming_app.fullname }} <span>{{ upcoming_app.address |title }}, {{ upcoming_app.country |title }}</span></a></h2>
+
+                                            </td>
+                                            <td>
+                                                <h5 class="time-title p-0">Appointment With</h5>
+                                                <p>Dr. {{ upcoming_app.doctor }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ upcoming_app.time }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ upcoming_app.date }}</p>
+                                            </td>
+                                            <td class="text-right">
+                                                <a href="{% url 'appointments' %}" class="btn btn-outline-primary take-btn">Take up</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+                    <div class="card member-panel">
+                        <div class="card-header bg-white">
+                            <h4 class="card-title mb-0">Doctors</h4>
+                        </div>
+                        <div class="card-body" style="height: 320px;">
+                            {% for doc in doc_obj %}
+                                <ul class="contact-list">
+                                <li>
+                                    <div class="contact-cont" style="padding: .6px;">
+                                        <div class="float-left user-img m-r-10">
+                                            <a href="{% url 'my-profile' doc.slug %}" title="{{ doc.fullname}}"><img src="{{ doc.image.url }}" alt="" class="w-40 rounded-circle">
+                                                <span class="status {% if doc.status == 'A' %}online {% else %}offline {% endif %}"></span></a>
+                                            {#                                                    <span class="status offline"></span></a>#}
+                                        </div>
+                                        <div class="contact-info">
+                                            <span class="contact-name text-ellipsis">{{ doc.fullname }}</span>
+                                            <span class="contact-date">{{ doc.edu_info }}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center bg-white">
+                            <a href="{% url 'doctors' %}" class="text-muted">View all Doctors</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title d-inline-block">New Patients </h4> <a href="{% url 'patients' %}" class="btn btn-primary float-right">View all</a>
+                        </div>
+                        <div class="card-block">
+                            <div class="table-responsive table-hover">
+                                <table class="table mb-0 new-patient-table">
+                                    <tbody>
+                                    <thead class="card-title">
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>Gender</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th class="text-right">Disease</th>
+                                        </tr>
+                                        </thead>
+                                    {% for patient in pat_obj %}
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <img width="28" height="28" class="rounded-circle" src="{{ patient.image.url }}" alt="">
+                                                <h2>{{ patient.fullname }}</h2>
+                                            </td>
+                                            <td>{{ patient.get_gender_display }}</td>
+                                            <td>{{ patient.email }}</td>
+                                            <td>{{ patient.phone }}</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-primary-one float-right" style="width: auto;">{{ patient.disease }}</button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+                    <div class="hospital-barchart">
+                        <h4 class="card-title d-inline-block">Hospital Management</h4>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="legend">
+                            <div class="item">
+                                <h4>Level1</h4>
+                            </div>
+                            <div class="item">
+                                <h4>Level2</h4>
+                            </div>
+                            <div class="item text-right">
+                                <h4>Level3</h4>
+                            </div>
+                            <div class="item text-right">
+                                <h4>Level4</h4>
+                            </div>
+                        </div>
+                        <div class="chart clearfix">
+                            <div class="item">
+                                <div class="bar">
+                                    <span class="percent">{{ opd |floatformat:2}}%</span>
+                                    <div class="item-progress" data-percent="{{ opd }}">
+                                        <span class="title">OPD Patient</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="bar">
+                                    <span class="percent">{{ new_patient |floatformat:2}}%</span>
+                                    <div class="item-progress" data-percent="{{ new_patient }}">
+                                        <span class="title">New Patient</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="bar">
+                                    <span class="percent">{{ treatment_perc |floatformat:2}}%</span>
+                                    <div class="item-progress" data-percent="{{ treatment_perc }}">
+                                        <span class="title">Treatment</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="bar">
+                                    <span class="percent">{{ discharge_perc |floatformat:2}}%</span>
+                                    <div class="item-progress" data-percent="{{ discharge_perc }}">
+                                        <span class="title">Discharge</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'master/master.html' %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'assets/js/messages.js' %}"></script>
+    <div class="page-wrapper">
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success" role="alert">{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-sm-4 col-3">
+                <h4 class="page-title">Doctors</h4>
+            </div>
+            <div class="col-sm-8 col-9 text-right m-b-20">
+                <a href="{% url 'add-doctor' %}" class="btn btn-primary btn-rounded float-right"><i
+                        class="fa fa-plus"></i>
+                    Add Doctor</a>
+            </div>
+        </div>
+        <div class="row doctor-grid ">
+            {% for doctor in doc_obj %}
+                <div class="col-md-4 col-sm-4  col-lg-3 blogBox moreBox"
+                        {% if forloop.counter > 8 %} style="display:none;"{% endif %}>
+                    <div class="profile-widget">
+                        <div class="doctor-img">
+                            <a class="avatar" href="{% url 'my-profile' doctor.slug %}"><img alt=""
+                                                                                             src="{{ doctor.image.url }}"></a>
+                        </div>
+                        <div class="dropdown profile-action">
+                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{% url 'edit-doctors' doctor.slug %} "><i
+                                        class="fa fa-pencil m-r-5"></i> Edit</a>
+                                <a class="dropdown-item" href="{% url 'delete-doctors' doctor.slug %}" data-toggle="modal"
+                                   data-target="#delete_doctor{{ doctor.slug }}"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                            </div>
+                        </div>
+                        <h4 class="doctor-name text-ellipsis {% if doctor.gender == 'M' %}  fa fa-male {% else %} fa fa-female {% endif %}"><a
+                                href="{% url 'my-profile' doctor.slug %}"> {{ doctor.fname }} {{ doctor.lname }}</a></h4>
+                        <div class="doc-prof">
+                            <i class="fa fa-user-md"></i> {{ doctor.medical_area }}</div>
+                        <div class="user-country">
+                            <i class="fa fa-map-marker"></i> {{ doctor.address |truncatewords:5 }}
+                        </div>
+                    </div>
+                </div>
+                <form action="{% url 'delete-doctors' doctor.slug %}" method="post">
+                    <div id="delete_doctor{{ doctor.slug }}" class="modal fade delete-modal" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered">
+
+                            {% csrf_token %}
+                            <div class="modal-content">
+                                <div class="modal-body text-center">
+                                    <img src="{% static 'assets/img/sent.png' %}" alt="" width="50" height="46">
+                                    <h3>Are you sure want to delete this Doctor?
+                                        <img src="{{ doctor.image.url }}" style="height: 150px;width: 150px"</h3>
+                                    <p>Dr. {{ doctor.fullname }}</p>
+                                    <div class="m-t-20"><a href="#" class="btn btn-white"
+                                                           data-dismiss="modal">Close</a>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            {% endfor %}
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="see-all" id="loadMore" style="">
+                <a class="see-all-btn" href="javascript:void(0);">Load More</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'assets/js/load-more-button.js' %}"></script>
+
+{% endblock %}

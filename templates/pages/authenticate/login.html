@@ -1,0 +1,57 @@
+{% extends 'layouts/master-login.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block content %}
+     <style>
+        .asteriskField {
+            display: none;
+        }
+        .hint_id_username{
+            display: none;
+        }
+    </style>
+    <div class="main-wrapper account-wrapper">
+       <div class="row offset-lg-4">
+            <div class="col-md-6">
+            {% if messages %}
+                {% for message in messages %}
+                    <div   {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+       </div>
+        <div class="account-page">
+
+            <div class="account-center">
+                <div class="account-box">
+                    <form action="{% url 'login' %}" method="post" class="form-signin">
+                        {% csrf_token %}
+                        <div class="account-logo">
+                            <img src="{% static 'assets/img/logo-dark.png' %}" alt="">
+                        </div>
+                        <div class="form-group">
+                            {{ login_form.username |as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ login_form.password |as_crispy_field }}
+                        </div>
+                        <div class="form-group text-right">
+                            <a href="{% url 'forgot-password' %}">Forgot your password?</a>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary account-btn">Login</button>
+                        </div>
+                        <div class="text-center register-link">
+                            Don’t have an account? <a href="{% url 'register' %}">Register Now</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src="{% static 'assets/js/messages.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'master/master.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block content %}
+    <script src="{% static 'assets/js/messages.js' %}"></script>
+    <style>
+        .asteriskField {
+            display: none;
+        }
+    </style>
+    <div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-8 offset-lg-2 text-sm-center">
+                {% if messages %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div   {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Employee Profile</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Avatar</label>
+                                <div class="profile-upload">
+                                        <img alt="" src="{{ emp_obj.image.url }}" style="width: 19%;">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="code">Employee ID</label>
+                            <input id='code' class="form-control" type="text" value="{{ emp_obj.code }}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input id="fname" class="form-control" type="text" value="{{ emp_obj.fname }}" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input id="lname" class="form-control" type="text" value="{{ emp_obj.lname }}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="uname">Username</label>
+                            <input id='uname' class="form-control" type="text" value="{{ emp_obj.uname }}" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id='email' class="form-control" type="email" value="{{ emp_obj.email }}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input id='password' class="form-control" type="password" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input id='confirm-password' class="form-control" type="password" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <div class="cal-icon">
+                                <input id='dob' class="form-control" type="text" value="{{ emp_obj.age }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="joining_date">Joining Date</label>
+                            <div class="cal-icon">
+                                <input id='joining_date' class="form-control" type="text" value="{{ emp_obj.joining_date }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input id='phone' class="form-control" type="number" value="{{ emp_obj.phone }}" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <input id='role' class="form-control" type="text" value="{{ emp_obj.role }}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="display-block" for="status">Status</label>
+                            <div class="form-check form-check-inline">
+                                <input id='status' class="form-check-input" type="radio" name="status"  disabled checked>
+                                    {% if emp_obj.status == 'A' %} Active
+                                    {% else %} Inactive
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="display-block">Gender</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="employee_gender" value="option1" disabled checked>
+                                <label class="form-check-label" for="employee_active">
+                                    {% if emp_obj.gender == 'M' %} Male
+                                    {% else %} Female
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="m-t-10 text-center">
+                    <a href="{% url 'edit-employee' emp_obj.slug %}">
+                    <button class="btn btn-primary submit-btn">Update Employee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('.datetime-input').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+        });
+    </script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}`"></script>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+{% endblock %}

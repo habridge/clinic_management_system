@@ -1,0 +1,128 @@
+{% extends 'master/master.html' %}
+{% load static %}
+
+{% block content %}
+    <script src="{% static 'assets/js/messages.js' %}"></script>
+    <style>
+        .form-control.form-control-sm {
+            padding: 0.1rem 0.91rem;
+        }
+
+        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+            background-color: #8ae6ee;
+        }
+    </style>
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success" role="alert">{{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-sm-4 col-3">
+                    <h4 class="page-title">Patients</h4>
+                </div>
+                <div class="col-sm-8 col-9 text-right m-b-20">
+                    <a href="{% url 'add-patient' %}" class="btn btn btn-primary btn-rounded float-right"><i
+                            class="fa fa-plus"></i> Add Patient</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-border table-striped custom-table datatable mb-0 table-hover">
+                            <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Created at</th>
+                                <th>Name</th>
+                                <th>Disease</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>City</th>
+                                <th>Status</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for patient in pat_obj %}
+                                <tr>
+                                    <td>{{ patient.code }}</td>
+                                    <td>{{ patient.created_at }}</td>
+                                    <td><img width="40" height="40" src="{{ patient.image.url }}"
+                                             class="rounded-circle m-r-5" alt="">{{ patient.fullname }}</td>
+
+                                    <td>{{ patient.disease }}</td>
+                                    <td>{{ patient.birthday }}</td>
+                                    <td>{{ patient.get_gender_display }}</td>
+
+                                    <td>{{ patient.phone }}</td>
+                                    <td>{{ patient.email }}</td>
+                                    <td>{{ patient.city |truncatechars_html:25 }}</td>
+                                    {% if patient.is_activated == True %}
+                                        {% with status='Active' %}
+                                            <td><span class="custom-badge status-green">{{ status }}</span></td>
+                                        {% endwith %}
+                                    {% else %}
+                                        {% with status='Inactive' %}
+                                            <td><span class="custom-badge status-red">{{ status }}</span></td>
+                                        {% endwith %}
+                                    {% endif %}
+                                    <td class="text-right">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                                               aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="{% url 'edit-patient' patient.slug %}"><i
+                                                        class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                <a class="dropdown-item" href="{% url 'delete-patient' patient.slug %}" data-toggle="modal"
+                                                   data-target="#delete_patient{{ patient.slug }}"><i class="fa fa-trash-o m-r-5"></i>
+                                                    Delete</a>
+                                            </div>
+                                        </div>
+                                        <form action="{% url 'delete-patient' patient.slug %}" method="post">
+                                            {% csrf_token %}
+                                            <div id="delete_patient{{ patient.slug }}" class="modal fade delete-modal" role="dialog">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-center">
+                                                            <img src="{% static 'assets/img/sent.png' %}" alt="" width="50"
+                                                                 height="46">
+                                                            <h3>Are you sure want to delete this Patient?
+                                                                <img src="{{ patient.image.url }}" style="height: 150px;width: 150px;
+                                                            animation: slide-in 0.5s forwards;
+                                                            -webkit-animation: slide-in 0.5s forwards;"></h3>
+                                                            <div class="m-t-20"><a href="#" class="btn btn-white"
+                                                                                   data-dismiss="modal">Close</a>
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static '/static/assets/js/app.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+{% endblock %}

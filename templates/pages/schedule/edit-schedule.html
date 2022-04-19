@@ -1,0 +1,92 @@
+{% extends 'master/master.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block content %}
+
+    <style>
+        .asteriskField {
+            display: none;
+        }
+    </style>
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-8 offset-lg-2 text-sm-center">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div   {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-lg-8 offset-lg-2">
+                    <h4 class="page-title">Edit Schedule</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <form method="post" action="{% url 'edit-schedule' schedule_obj.id %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ schedule_form.doc_obj |as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ schedule_form.dep_obj |as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ schedule_form.available_days| as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="time-icon">
+                                        {{ schedule_form.start_time |as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="time-icon">
+                                        {{ schedule_form.end_time |as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ schedule_form.message |as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ schedule_form.status |as_crispy_field }}
+                        </div>
+                        <div class="m-t-20 text-center">
+                            <button class="btn btn-primary submit-btn">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('.timez ').datetimepicker({
+
+                format: 'HH:mm:ss'
+            });
+        });
+    </script>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'assets/js/messages.js' %}"></script>
+
+{% endblock %}
