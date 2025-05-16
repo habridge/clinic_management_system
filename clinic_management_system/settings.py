@@ -42,9 +42,16 @@ INSTALLED_APPS = [
     'myclinic.apps.MyclinicConfig',
     # 'phonenumber_field',
     'crispy_forms',
+    'crispy_bootstrap5',  # <-- Add this
     'widget_tweaks',
+    # 'bootstrap4',
+    # 'bootstrap5',
+    'django_bootstrap5',  # <-- Correct app name
+
 ]
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 
 MIDDLEWARE = [
